@@ -1,19 +1,39 @@
-# Configure the OCI provider with an API Key
-# tenancy_ocid is the compartment OCID for the root compartment
+terraform {
+
+  required_providers {
+    oci = {
+      source = "oracle/oci"
+    }
+  }
+}
+
+variable "tenancy_ocid" {
+  description = "The OCID of the tenancy."
+  type        = string
+}
+
+variable "user_ocid" {
+  description = "The OCID of the user."
+  type        = string
+}
+
+variable "fingerprint" {
+  description = "The fingerprint of the API key."
+  type        = string
+}
+
+variable "private_key_path" {
+  description = "The path to the private key file."
+  type        = string
+}
+variable "region" {
+  description = "The region to deploy resources."
+  type        = string
+}
 provider "oci" {
   tenancy_ocid = var.tenancy_ocid
   user_ocid = var.user_ocid
   fingerprint = var.fingerprint
   private_key_path = var.private_key_path
   region = var.region
-}
-
-# Get a list of Availability Domains
-data "oci_identity_availability_domains" "ads" {
-  compartment_id = var.tenancy_ocid
-}
-
-# Output the result
-output "show-ads" {
-  value = data.oci_identity_availability_domains.ads.availability_domains
 }
